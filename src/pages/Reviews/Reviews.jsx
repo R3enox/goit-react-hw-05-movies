@@ -1,12 +1,14 @@
+import Loader from 'components/Loader/Loader';
+import { Notify } from 'notiflix';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getReviews } from 'services/getReviews';
+import { Description, ReviewsList } from './StyledReviews.styled';
 
 const Reviews = () => {
   const { movieId } = useParams();
-  const [reviewsDetails, setReviewsDetails] = useState(null);
+  const [reviewsDetails, setReviewsDetails] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -14,31 +16,37 @@ const Reviews = () => {
         setIsLoading(true);
         await getReviews(movieId).then(results => setReviewsDetails(results));
       } catch (error) {
-        setError(error.message);
+        Notify.warning('Oops, something went wrong!');
       } finally {
         setIsLoading(false);
       }
     };
     fetchReviews();
   }, [movieId]);
+
   return (
-    <>
-      {reviewsDetails && (
-        <ul>
+    <div>
+      {isLoading && <Loader />}
+      {reviewsDetails.length !== 0 ? (
+        <ReviewsList>
           {reviewsDetails.map(
             ({ author_details: { name, username }, content }, idx) => {
               return (
-                <li key={idx + 1}>
-                  <p>Name: {name}</p>
-                  <p>User Name: {username}</p>
-                  <p>{content}</p>
+                <li className="reviewsItem" key={idx + 1}>
+                  <p className="reviewsName">Name: {name}</p>
+                  <p className="reviewsUserName">User Name: {username}</p>
+                  <p className="reviewsContent">{content}</p>
                 </li>
               );
             }
           )}
-        </ul>
+        </ReviewsList>
+      ) : (
+        <Description className="reviewsDesc">
+          We don't have any reviews for this movie.
+        </Description>
       )}
-    </>
+    </div>
   );
 };
 

@@ -1,16 +1,17 @@
 import { NavLink } from 'react-router-dom';
+import { StyledLayout } from './StyledLayout.styled';
 
 const Layout = ({ children }) => {
   return (
     <>
-      <header>
-        <NavLink className="header- ink" to="/">
+      <StyledLayout>
+        <NavLink className="headerLink" to="/">
           Home
         </NavLink>
-        <NavLink className="header-link" to="movies">
+        <NavLink className="headerLink" to="movies">
           Movies
         </NavLink>
-      </header>
+      </StyledLayout>
       <main>{children}</main>
     </>
   );

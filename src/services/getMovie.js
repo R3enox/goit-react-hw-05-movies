@@ -3,9 +3,9 @@ import axios from 'axios';
 axios.defaults.baseURL = 'https://api.themoviedb.org/3';
 const API_KEY = '163fbdfae3746fb3162540a05c88c436';
 
-export const getCast = async movieId => {
+export const getMovie = async movieValue => {
   const { data } = await axios.get(
-    `/movie/${movieId}/credits?language=en-US&api_key=${API_KEY}`
+    `/search/movie?query=${movieValue}&include_adult=false&language=en-US&api_key=${API_KEY}`
   );
   return data;
 };
