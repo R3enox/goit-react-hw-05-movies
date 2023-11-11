@@ -19,6 +19,7 @@ const MovieDetails = () => {
   const backLinkRef = useRef(location.state?.from ?? '/');
 
   useEffect(() => {
+    if (!movieId) return;
     const fetchMovieId = async () => {
       try {
         setIsLoading(true);

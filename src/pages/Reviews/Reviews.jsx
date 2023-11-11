@@ -11,6 +11,7 @@ const Reviews = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    if (!movieId) return;
     const fetchReviews = async () => {
       try {
         setIsLoading(true);
